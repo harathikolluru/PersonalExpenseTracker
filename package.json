@@ -1,0 +1,25 @@
+{
+  "name": "personalexpensetracker",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev":"concurrently \"npm run server\" \"npm run client\" "
+  },
+  "keywords": [],
+  "author": "Harathi",
+  "license": "MIT",
+  "description": "expense tracker app",
+  "dependencies": {
+    "antd": "^5.21.4",
+    "colors": "^1.4.0",
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2",
+    "morgan": "^1.10.0"
+  }
+}
