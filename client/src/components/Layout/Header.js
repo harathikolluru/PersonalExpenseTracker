@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
+import bg from './../../img/bg.png'
 
 const Header = () => {
   const [loginUser, setLoginUser] = useState("");
@@ -19,7 +20,8 @@ const Header = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-light">
+     <div >
+      <nav className="navbar navbar-expand-lg bg-light" style={{ backgroundImage: `url(${bg})`}}>
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -50,6 +52,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      </div>
     </>
   );
 };
