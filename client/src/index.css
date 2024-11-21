@@ -5,14 +5,9 @@
 }
 
 .content {
-  height: 80vh;
-}
-
-.resgister-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
+  margin: 0;
+  padding-bottom: 60px; /* Matches the footer height */
+  box-sizing: border-box;
 }
 
 /* transection page */
@@ -22,6 +17,7 @@
   justify-content: space-between;
   padding: 15px 20px;
   box-shadow: 0 0 3px gray;
+  margin-bottom: 10px;
 }
 /* transection page */
 
@@ -47,4 +43,12 @@
 
 .filter-tab .ant-select-selector {
   width: 150px !important;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10; /* Ensures it appears above other elements if needed */
 }
