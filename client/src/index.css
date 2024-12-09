@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+.resgister-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
 /* transection page */
 .filters {
   display: flex;

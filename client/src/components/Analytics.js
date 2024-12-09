@@ -48,7 +48,7 @@ const Analytics = ({ alltransaction }) => {
   return (
     <>
       <div className="row m-3">
-        <div className="col-md-4">
+        <div className="col-md-3">
           <div className="card">
             <div className="card-header">
               Total Transactions : {totalTransaction}
@@ -60,7 +60,7 @@ const Analytics = ({ alltransaction }) => {
               <h5 className="text-danger">
                 Expense : {totalExpenseTransactions.length}
               </h5>
-              <div>
+              <div className="d-flex flex-column align-items-center">
                 <Progress
                   type="circle"
                   strokeColor={"green"}
@@ -70,14 +70,14 @@ const Analytics = ({ alltransaction }) => {
                 <Progress
                   type="circle"
                   strokeColor={"red"}
-                  className="mx-2"
+                  className="mx-2 mt-3"
                   percent={totalExpensePercent.toFixed(0)}
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-3">
           <div className="card">
             <div className="card-header">Total TurnOver : {totalTurnover}</div>
             <div className="card-body">
@@ -93,17 +93,15 @@ const Analytics = ({ alltransaction }) => {
                 <Progress
                   type="circle"
                   strokeColor={"red"}
-                  className="mx-2"
+                  className="mx-2 mt-3"
                   percent={totalExpenseTurnoverPercent.toFixed(0)}
                 />
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="row mt-3">
-        <div className="col-md-4">
-          <h4>Categorywise Income</h4>
+        <div className="col-md-3">
+        <h6 className="bg-dark p-2 text-light">Categorywise Income</h6>
           {categories.map((category) => {
             const amount = alltransaction
               .filter(
@@ -114,9 +112,9 @@ const Analytics = ({ alltransaction }) => {
               .reduce((acc, transaction) => acc + transaction.amount, 0);
             return (
               amount > 0 && (
-                <div className="card">
+                <div className="card mt-2">
                   <div className="card-body">
-                    <h5>{category}</h5>
+                  <h6>{category}</h6>
                     <Progress
                       percent={((amount / totalIncomeTurnover) * 100).toFixed(
                         0
@@ -128,8 +126,8 @@ const Analytics = ({ alltransaction }) => {
             );
           })}
         </div>
-        <div className="col-md-4">
-          <h4>Categorywise Expense</h4>
+        <div className="col-md-3">
+        <h6 className="bg-warning p-2 text-light">Categorywise Expense</h6>
           {categories.map((category) => {
             const amount = alltransaction
               .filter(
@@ -140,9 +138,9 @@ const Analytics = ({ alltransaction }) => {
               .reduce((acc, transaction) => acc + transaction.amount, 0);
             return (
               amount > 0 && (
-                <div className="card">
+                <div className="card mt-2">
                   <div className="card-body">
-                    <h5>{category}</h5>
+                  <h6>{category}</h6>
                     <Progress
                       percent={((amount / totalExpenseTurnover) * 100).toFixed(
                         0
@@ -155,6 +153,7 @@ const Analytics = ({ alltransaction }) => {
           })}
         </div>
       </div>
+      <div className="row mt-3 analytics"></div>
     </>
   );
 };

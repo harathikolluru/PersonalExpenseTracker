@@ -12,6 +12,7 @@ import axios from "axios";
 import Spinner from "./../components/Spinner";
 import Analytics from "../components/Analytics";
 import moment from "moment";
+
 const { RangePicker } = DatePicker;
 
 const HomePage = () => {
@@ -25,12 +26,12 @@ const HomePage = () => {
   const [selectedDate, setSelectedate] = useState([]);
   const [type, setType] = useState("all");
 
-
   // Column definition for the transaction table
   const columns = [
     {
       title: "Date",
       dataIndex: "date",
+      render: (text) => <span>{moment(text).format("YYYY-MM-DD")}</span>,
     },
     {
       title: "Amount",
@@ -71,28 +72,27 @@ const HomePage = () => {
   ];
 
   // Fetch all transactions
-  
+  const getAllTransactions = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      setLoading(true);
+      const res = await axios.post("/transactions/get-transaction", {
+        userid: user._id,
+        frequency,
+        selectedDate,
+        type,
+      });
+      setLoading(false);
+      setAlltransaction(res.data);
+    } catch (error) {
+      console.log(error);
+      message.error("Fetch Issue With Transaction");
+      setLoading(false);
+    }
+  };
 
   // Effect to load transactions initially
   useEffect(() => {
-    const getAllTransactions = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        setLoading(true);
-        const res = await axios.post("/transactions/get-transaction", {
-          userid: user._id,
-          frequency,
-          selectedDate,
-          type,
-        });
-        setLoading(false);
-        setAlltransaction(res.data);
-      } catch (error) {
-        console.log(error);
-        message.error("Fetch Issue With Transaction");
-        setLoading(false);
-      }
-    };
     getAllTransactions();
   }, [frequency, selectedDate, type]);
 
@@ -104,7 +104,7 @@ const HomePage = () => {
         transacationId: record._id,
       });
       message.success("Transaction Deleted!");
-      // getAllTransactions();
+      getAllTransactions(); // Refresh transactions after deletion
     } catch (error) {
       console.log(error);
       message.error("Unable to delete transaction");
@@ -134,8 +134,8 @@ const HomePage = () => {
         });
         message.success("Transaction Added Successfully");
       }
-      // getAllTransactions();
       closeModal();
+      getAllTransactions(); // Refresh transactions after adding/updating
     } catch (error) {
       message.error("Failed to add/update transaction");
     } finally {
@@ -162,12 +162,12 @@ const HomePage = () => {
       {loading && <Spinner />}
       <div className="filters">
         <div>
-        <h6>Select Frequency</h6>
-        <Select value={frequency} onChange={(values) => setFrequency(values)}>
+          <h6>Select Frequency</h6>
+          <Select value={frequency} onChange={(values) => setFrequency(values)}>
             <Select.Option value="7">LAST 1 Week</Select.Option>
             <Select.Option value="30">LAST 1 Month</Select.Option>
             <Select.Option value="365">LAST 1 year</Select.Option>
-            {/* <Select.Option value="custom">custom</Select.Option> */}
+            <Select.Option value="custom">custom</Select.Option>
           </Select>
           {frequency === "custom" && (
             <RangePicker
@@ -176,19 +176,13 @@ const HomePage = () => {
             />
           )}
         </div>
-        <div>
+        <div className="filter-tab ">
           <h6>Select Type</h6>
           <Select value={type} onChange={(values) => setType(values)}>
             <Select.Option value="all">ALL</Select.Option>
             <Select.Option value="income">INCOME</Select.Option>
             <Select.Option value="expense">EXPENSE</Select.Option>
           </Select>
-          {frequency === "custom" && (
-            <RangePicker
-              value={selectedDate}
-              onChange={(values) => setSelectedate(values)}
-            />
-          )}
         </div>
         <div className="switch-icons">
           <UnorderedListOutlined
